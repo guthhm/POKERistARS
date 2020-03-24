@@ -1,4 +1,4 @@
-# ```POKER```<i>ist</i>```ARS```
+# POKER<i>ist</i>ARS
 
 Este projeto consiste na criação de um programa realizado em linguagem C que faça leitura e processamento de acordo com regras determinadas pelos docentes de mãos usadas no Poker em diferentes modos de jogo.
 
