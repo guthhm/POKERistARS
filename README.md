@@ -4,7 +4,7 @@ Este projeto consiste na criação de um programa realizado em linguagem C que f
 
 # O Projeto
 
-Consiste basicamente em uma versão adaptada do jogo de Poker. Neste sentido, o programa trabalhará sempre com o baralho padrão de 52 cartas, com 4 naipes. Além disso, são usadas as regras de mão do estilo Texas Hold'Em e utilizada a classificação mais comum das mão possíveis, sendo como na seguinte imagem:
+Consiste basicamente em uma versão adaptada do jogo de Poker. Neste sentido, o programa trabalhará sempre com o baralho padrão de 52 cartas, com 4 naipes. Além disso, são usadas as regras de mão do estilo Texas Hold'Em e utilizada a classificação mais comum das mãos possíveis, sendo como na seguinte imagem (com o Royal Flush como a mão mais forte e o High Hand, ou High Card o mais fraco):
 
 ![Classificação das Mãos](images/pokerhands.jpg)
 
@@ -58,16 +58,16 @@ O programa a ser realizado possui alguns diferentes modos para ser executado, no
 Este modo corresponde à opção ```-c``` onde deverão ser indicadas logo em seguida 5, 7, 9 ou 10 cartas, as quais cada quantidade indicada representa uma forma diferente de processamento.
 
 <dl>
-    <dt>1. 5 cartas</dt>
+    <dt>- 5 cartas</dt>
 	<dd> Ao serem indicadas 5 cartas, o programa deve classificar qual a mão existente.
 	</dd>
-    <dt>2. 7 cartas</dt>
+    <dt>- 7 cartas</dt>
         <dd> Deve-se indicar o melhor conjunto de 5 cartas entre as 7 e classifica a mão.
 	</dd>
-    <dt>2. 9 cartas</dt>
+    <dt>- 9 cartas</dt>
         <dd> Assim como no item anterior, indica o melhor conjunto de 5 cartas considerando 2 cartas individuais para um jogador, 2 cartas de outro jogador e 5 cartas da mesa. Após isto é necessário confrontar as mãos e determinar o resultado como no item seguinte.
 	</dd>
-    <dt>2. 10 cartas</dt>
+    <dt>- 10 cartas</dt>
         <dd> São lidos 2 blocos de 5 cartas, representando 2 mãos diferentes que devem ser confrontadas. Deste modo, o output será:
 		<dd>0 - Empate</dd>
 		<dd>1 - Primeiras 5 cartas vencem</dd>
