@@ -5,5 +5,5 @@ CFLAGS=-I.
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 pokeristars: main.c
-	gcc -w -o pokeristars.out main.c
+	gcc -w -o pokeristars.out main.c 
 	./pokeristars.out
