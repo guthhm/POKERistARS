@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+#include "quicklib.h"
 
 #define YES 1
 #define NO 0 
-#define hands[9] {1,2,3,4,5,6,7,8,9,10}
 
 int handIdentifier (char hand[10][3]) {
 
@@ -12,9 +13,45 @@ int handIdentifier (char hand[10][3]) {
 
 }
 
+int handSort (char array[10][3], int arr_size) {
+
+    int i, j; 
+    char temp[3];
+    bool swapped; 
+
+    for (int i = 0; i < arr_size-1; i++) 
+    { 
+
+        swapped = false; 
+        for (int j = 0; j < arr_size-i-1; j++) 
+        { 
+            if (array[j][0] > array[j+1][0]) 
+            { 
+                strcpy(temp, array[j+1]);
+                strcpy(array[j+1], array[j]);
+                strcpy(array[j], temp);
+                swapped = YES; 
+            } 
+            
+            if ((array[j]))
+            {
+                
+            }
+        } 
+
+        printf("\nSwapped: %d\n", swapped);
+  
+        // IF no two elements were swapped by inner loop, then break 
+        if (swapped == NO) 
+            break; 
+    } 
+
+}
+
 int main(int argc, char **argv) {
 
     int loop = 0;
+    int *input_int;
     char input[10][3];
     char args[8][3] ={"-c", "-d1", "-d2", "-d3", "-d4", "-dx", "-s1", "-o"};
 
@@ -107,11 +144,23 @@ int main(int argc, char **argv) {
         break;
     
     default:
+        printf("\nO numero de cartas inseridas nao e permitido, por favor reinicie o programa e insira as cartas corretamente.\n");
+        exit(-1);
         break;
     }
 
     printf("\n");
 
+    input_int = castCtoI(input);
+
+    for (int i = 0; i < argc-2; i++)
+        printf("Input: %d\n", *(input_int + i));
+
+    handSort(input, argc-2);
+
+    for (int i = 0; i < argc-2; i++)
+        printf("Input: %s\n", input[i]);
+    
     return 0;
 
 }
