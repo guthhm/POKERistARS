@@ -7,11 +7,11 @@
 #define YES 1
 #define NO 0 
 
-int handIdentifier (char hand[10][3]) {
-
-
-
-}
+typedef struct hand
+{
+    char card_naipes[10];
+    int card_values[6];
+}HAND;
 
 int handSort (char array[10][3], int arr_size) {
 
@@ -37,11 +37,8 @@ int handSort (char array[10][3], int arr_size) {
             {
                 
             }
-        } 
+        }   
 
-        printf("\nSwapped: %d\n", swapped);
-  
-        // IF no two elements were swapped by inner loop, then break 
         if (swapped == NO) 
             break; 
     } 
@@ -54,6 +51,7 @@ int main(int argc, char **argv) {
     int *input_int;
     char input[10][3];
     char args[8][3] ={"-c", "-d1", "-d2", "-d3", "-d4", "-dx", "-s1", "-o"};
+    HAND hand_input;
 
     loop = YES;
     for (int i = 0; i < 9; i++)     // for para deteção do modo de execução do programa
@@ -64,35 +62,35 @@ int main(int argc, char **argv) {
             switch (i)
             {
                 case 0:
-                    printf("\n-c\n");
+                    //printf("\n-c\n");
                     break;
                 
                 case 1:
-                    printf("\n-d1\n");
+                    //printf("\n-d1\n");
                     break;
 
                 case 2:
-                    printf("\n-d2\n");
+                    //printf("\n-d2\n");
                     break;
 
                 case 3:
-                    printf("\n-d3\n");
+                    //printf("\n-d3\n");
                     break;
 
                 case 4:
-                    printf("\n-d4\n");
+                    //printf("\n-d4\n");
                     break;
 
                 case 5:
-                    printf("\n-dx\n");
+                    //printf("\n-dx\n");
                     break;
 
                 case 6:
-                    printf("\n-s1\n");
+                    //printf("\n-s1\n");
                     break;
 
                 case 7:
-                    printf("\n-o\n");
+                    //printf("\n-o\n");
                     break;
                 
                 default:
@@ -109,57 +107,33 @@ int main(int argc, char **argv) {
         
     }
 
-    switch (argc)
-    {
-    case 7:
-        for (int i = 0; i < argc-2; i++)
+    for (int i = 0; i < argc-2; i++)  // Copia cartas recebidas na linha de comando para input
             strcpy(input[i], argv[i+2]);
 
-        for (int i = 0; i < argc-2; i++)
-            printf("Input: %s\n", input[i]);
-        break;
-
-    case 9:
-        for (int i = 0; i < argc-2; i++)
-            strcpy(input[i], argv[i+2]);
-
-        for (int i = 0; i < argc-2; i++)
-            printf("Input: %s\n", input[i]);
-        break;
-
-    case 11:
-        for (int i = 0; i < argc-2; i++)
-            strcpy(input[i], argv[i+2]);
-
-        for (int i = 0; i < argc-2; i++)
-            printf("Input: %s\n", input[i]);
-        break;
-
-    case 12:
-        for (int i = 0; i < argc-2; i++)
-            strcpy(input[i], argv[i+2]);
-
-        for (int i = 0; i < argc-2; i++)
-            printf("Input: %s\n", input[i]);
-        break;
-    
-    default:
-        printf("\nO numero de cartas inseridas nao e permitido, por favor reinicie o programa e insira as cartas corretamente.\n");
-        exit(-1);
-        break;
+    for (int i = 0; i < argc-2; i++) {
+        hand_input.card_naipes[i] = input[i][1];
+        hand_input.card_values[i] = *(input_int + i);
     }
 
-    printf("\n");
-
     input_int = castCtoI(input);
+
+    /* // Imprime valores para conferir
 
     for (int i = 0; i < argc-2; i++)
         printf("Input: %d\n", *(input_int + i));
 
-    handSort(input, argc-2);
+    printf("\n\n");
+    printf("Mão: ");
 
     for (int i = 0; i < argc-2; i++)
-        printf("Input: %s\n", input[i]);
+        printf("%d%c   ", hand_input.card_values[i], hand_input.card_naipes[i]);
+
+    */
+
+    handSort(input, argc-2);
+
+    /*for (int i = 0; i < argc-2; i++)
+        printf("Input: %s\n", input[i]);*/
     
     return 0;
 
