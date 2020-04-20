@@ -31,3 +31,9 @@ int *castCtoI (char array[10][3]) {
     
     return int_array;
 }
+
+char *castItoC (int array[10]) {
+
+    // Corpo da função
+
+}
