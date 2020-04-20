@@ -8,10 +8,10 @@ int *castCtoI (char array[10][3]) {
 
     static int int_array[9];
 
-    for (int i = 0; i < 10; i++)
+    /*for (int i = 0; i < 10; i++)
         printf("Input: %s\n", array[i]);
 
-    printf("\n");
+    printf("\n");*/
 
     for (int i = 0; i < 10; i++)
     {
