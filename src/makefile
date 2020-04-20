@@ -6,4 +6,4 @@ DEPS = quicklib.h
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 pokeristars: main.c
-	gcc -o pokeristars.out main.c quicklib.c quicklib.h
+	gcc -Wall -std=c99 -O3 -o pokeristars.out main.c quicklib.c pokerlib.c quicklib.h pokerlib.h
