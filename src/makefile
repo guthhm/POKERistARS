@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-I.
+DEPS = quicklib.h
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 pokeristars: main.c
-	gcc -w -o pokeristars.out main.c 
-	./pokeristars.out
+	gcc -o pokeristars.out main.c quicklib.c quicklib.h
