@@ -36,4 +36,6 @@ char *castItoC (int array[10]) {
 
     // Corpo da função
 
+    return 0;
+
 }
