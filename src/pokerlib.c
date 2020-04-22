@@ -7,7 +7,7 @@ char *divideHands (char cards[10][3], int player) {
 
     static char player_hands[6][3];
 
-    printf("\nPlayer: %d\n", player);
+    //printf("\nPlayer: %d\n", player);
 
     if (player == 0)
         for (int i = 0; i < 10; i++) {// Copia elementos do input original para a mão do jogador
@@ -21,11 +21,12 @@ char *divideHands (char cards[10][3], int player) {
         for (int i = 2; i < 10; i++) // Copia elementos do input original a aprtir da 2ª posição do array
             strcpy(player_hands[i-2], cards[i]);
 
-    for (int i = 0; i < 7; i++)
+    /*for (int i = 0; i < 7; i++)
         printf("%s  ", player_hands[i]);
     
-    printf("\n");
+    printf("\n"); */
 
     return player_hands;
 
 }
+
