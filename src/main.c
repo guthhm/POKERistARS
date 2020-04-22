@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
             switch (i)
             {
                 case 0:
-                    printf("\n-c\n");
+                    //printf("\n-c\n");
                     break;
                 
                 case 1:
@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
         
     }
 
-    printf("\n%d\n", argc);
+    //printf("\n%d\n", argc);
 
     /*if ((argc != 7 || argc != 9 || argc != 11 || argc != 12) && (strstr("-c", argv[1]) != NULL))
     {
@@ -156,10 +156,10 @@ int main(int argc, char **argv) {
                     //printf("\nL: %d\n", l);
                     }
             
-            for (int j = 0; j < 7; j++)
+            /*for (int j = 0; j < 7; j++)
                 printf("%s ", players[i][j]);
 
-            printf("\n");
+            printf("\n");*/
             
         }
     }
@@ -205,15 +205,16 @@ int main(int argc, char **argv) {
 
     // Imprime valores para conferir
 
-    printf("\n\n");
-    printf("Mão: ");
+    //printf("\n\n");
+    printf("\tMãos: \n");
 
     for (int i = 0; i < 2; i++) {
+        printf("\nJogador %d: ", i+1);
         for (int j = 0; j < 7; j++)
             printf("%d%c   ", hand_input[i].card_values[j], hand_input[i].card_naipes[j]);
-
-        printf("\n\n");
     }
+
+    printf("\n\n");
     
     return 0;
 
