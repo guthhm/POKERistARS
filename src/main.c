@@ -8,12 +8,6 @@
 #define YES 1
 #define NO 0 
 
-typedef struct hand
-{
-    char card_naipes[7];
-    int card_values[7];
-}HAND;
-
 int handSort (char array[6][3], int arr_size) {
 
     char temp[3];
@@ -215,6 +209,8 @@ int main(int argc, char **argv) {
     }
 
     printf("\n\n");
+
+    handIdentifier(hand_input[1]);
     
     return 0;
 
