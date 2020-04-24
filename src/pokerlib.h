@@ -11,6 +11,6 @@ typedef struct hand
 
 char *divideHands (char cards[10][3], int player);
 
-HAND handIdentifier (HAND player);
+HAND handIdentifier (HAND player, int hand_size);
 
 #endif
