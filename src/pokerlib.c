@@ -31,12 +31,71 @@ char *divideHands (char cards[10][3], int player) {
 
 }
 
+void errorCheck (char input[10][3], int input_size) {
+
+    int valid = 0;
+    const char valid_numbers[14] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'}; 
+    const char valid_naipes[4] = {'C', 'E', 'O', 'P'};
+   
+    for (int i = 0; i < input_size; i++)  // Verifica Naipes ou Cartas ilegais
+    {
+        valid = NO;
+        for (int j = 0; j < 14; j++)
+            if (valid_numbers[j] == input[i][0]) 
+                valid = YES;
+
+        if (valid == NO)
+        {
+            printf("-1\n");
+            exit(-1);
+        }
+
+        valid = NO;
+        for (int j = 0; j < 4; j++)
+            if (valid_naipes[j] == input[i][1]) 
+                valid = YES;
+        
+        if (valid == NO)
+        {
+            printf("-1\n");
+            exit(-1);
+        }
+
+        /*if (strlen >= 3)
+        {
+            printf("-1\n");
+            exit(-1);
+        }*/
+        
+    }
+
+    /*for (int i = 0; i < input_size; i++)
+    {
+        valid == YES;
+        for (int j = 0; j < input_size; j++)
+        {
+            if ((input[i][0] == input[j][0]) && (input[i][1] == input[j][1]))
+                valid = NO;            
+        }
+
+        if (valid == NO)
+        {
+            printf("-1\n");
+            exit(-1);
+        }
+    }*/
+
+    //Cartas não podem repetir na mesma mão de 5, 7 e 9
+    //Em 10 cartas, as 2 primeiras não podem repetir
+
+}
+
 HAND handIdentifier (HAND player, int hand_size) {
 
     HAND result;
 
-    int naipes[4] = {0}, mask[3][7] = {0}, rank[10] = {0};
-    int last_high = 0, first_high, count = 0, streak = 0, aux;
+    int naipes[4] = {0}, mask[7] = {0}, rank[10] = {0};
+    int last_high = 0, first_high, count = 0, streak = 0, aux = 0;
 
     for (int i = 0; i < hand_size; i++)  // Conta qual naipe tem maior ocorrência
     {
@@ -50,7 +109,6 @@ HAND handIdentifier (HAND player, int hand_size) {
             naipes[3]++;
     }
 
-
     for (int i = 3; i >= 0; i--) // Verifica se algum naipe possui 5 ocorrências, o que configura um Flush
         if (naipes[i] >= 5)
         {
@@ -58,101 +116,81 @@ HAND handIdentifier (HAND player, int hand_size) {
             for (int j = 0; j < hand_size; j++)
             {
                 if ((player.card_naipes[j] == 'C')  && (i == 0))
-                    mask[0][j]++;
+                    mask[j]++;
                 if ((player.card_naipes[j] == 'E') && (i == 1))
-                    mask[0][j]++;
+                    mask[j]++;
                 if ((player.card_naipes[j] == 'O') && (i == 2))
-                    mask[0][j]++;
+                    mask[j]++;
                 if ((player.card_naipes[j] == 'P') && (i == 3))
-                    mask[0][j]++;
+                    mask[j]++;
             }
         }
 
-
-    for (int j = hand_size-1; j >= 0; j--)  // Verifica, de 2 em 2 as condições de Straight
-    {
-        if ((j-1 >= 0) && (player.card_values[j-1] + 1 == player.card_values[j]))
-            mask[1][j] = 1;
-        /*if ((j-1 >= 0) && (player.card_values[j-1] == player.card_values[j]) && (mask[1][j+1] == 1))
-        {
-            mask[1][j] = 1;
-            mask[1][j-1] = 1;
-        }*/
-        if ((j-1 >= 0) && (player.card_values[j-1] < player.card_values[j] - 1))
-        {
-            mask[1][j] = 0;
-            mask[1][j-1] = 0;
-        }
-        if ((j-1 == 0) && (player.card_values[j] + 1 == player.card_values[j+1]))
-            mask[1][j] = 1;
-        if ((j-1 == 0) && (player.card_values[j-1] + 1 == player.card_values[j]))
-            mask[1][j-1] = 1;
-        
-        if ((player.card_values[j-2] == player.card_values[j]))
-        {
-            mask[1][j-2] = 0;
-            mask[1][j-1] = 0;
-            mask[1][j] = 0;
-            j--;
-        }
-        if ((player.card_values[0] == 2) && (player.card_values[hand_size-1] == 14))
-        {
-            mask[1][hand_size-1] = 1;
-            mask[1][0] = 1;
-        }
-    }
-
-
-    for (int i = 0; i < hand_size; i++)  // Compara as 2 máscaras em busca de um Straight Flush ou apenas Straight
-    {
-        if (rank[5] == 1)
-        {
-            if ((mask[0][i] == 1) && (mask[1][i] == 1))
-            {
-                mask[2][i]++;
-                last_high = i;
-            }            
-        } 
-        if ((mask[1][i] == 1))
-            last_high = i;
-    }
-
+    aux = 0;
     for (int i = hand_size-1; i >= 0; i--)
     {
-        if (mask[1][i] == 1)
+
+        int j = 1;
+
+        if (player.card_values[i] == player.card_values[i-1] + 1)
+            streak++;
+
+        if (mask[i] == 1)
         {
-            if (player.card_values[i] == player.card_values[i-1] + 1)
-            {
-                printf("\nI: %d", i);
-                streak++;
-            } else if ((player.card_values[i] == player.card_values[i+1] - 1) )
-            {
-                printf("\nI: %d", i);
-                streak = 0;
-            }
-            if (streak == 5)
-            {
-                break;
-            }
+            while (mask[i-j] == 0)
+                j++;
             
+            if (player.card_values[i] == player.card_values[i-j] + 1)
+                aux++;
             
+            if (i == (hand_size-1))
+                last_high = i;
         }
-                 
+
+        if ((player.card_values[0] == 2) && (player.card_values[hand_size-1] == 14) && (streak >= 3) && (i < 2))
+            streak++;
+
+       /*if (player.card_values[i] == player.card_values[i-1])  // Se i = i-1 streak não altera
+           streak = streak;
+       */
+        if (player.card_values[i] > player.card_values[i-1] + 1)
+            streak = 0;
+
+        if ((streak > 0) && !(((player.card_values[0] == 2) && (player.card_values[hand_size-1] == 14)) || (player.card_values[i] == player.card_values[i-1])))
+        {
+            result.best_combination[streak-1] = i;
+            if (streak == 4)
+                result.best_combination[4] = i - 1;
+        }
+        else if ((streak > 0) && ((player.card_values[0] == 2) && (player.card_values[hand_size-1] == 14)))
+        {
+            result.best_combination[streak] = i;
+            result.best_combination[0] = hand_size-1;
+        }
+        else if (streak == 0)
+            for (int k = 0; k < 5; k++)
+                result.best_combination[k] = 0;
+
+        if (streak == 4)
+        {
+            if (aux == 4)
+            {
+                if (player.card_values[last_high]  == 14)
+                {
+                    rank[9]++;
+                    break;
+                }else
+                {
+                    rank[8]++;
+                    break;
+                }
+            }
+            
+            rank[4]++; //Straight
+            break;
+
+        }
     }
-        
-
-    if (streak >= 5)
-        rank[4]++;
-        //Straight
-    
-    if ((rank[5] == 1) && (rank[4] == 1) && (player.card_values[last_high] == 14))
-        rank[9]++; 
-        // ROYAL FLUSH
-
-    if ((rank[5] == 1) && (rank[4] == 1))
-        rank[8]++;
-        // Straight Flush
-
 
     for (int i = hand_size-1; i >= 0; i--)
     {
@@ -181,19 +219,28 @@ HAND handIdentifier (HAND player, int hand_size) {
                 break;
             }
         }
-        if ((rank[3] == YES) && (rank[1] == YES))  // Verifica Full House
+        if (((rank[3] == 1) && (rank[1] >= 1)) || (rank[3] == 2))  // Verifica Full House
         {
             rank[6]++;
             break;
         }
     }
-
-
+    
     for (int i = 0; i < hand_size; i++)
     {
         result.card_values[i] = player.card_values[i];  // Copia cartas para result
         result.card_naipes[i] = player.card_naipes[i];
     }
+
+    aux = 0;
+    for (int i = 9; i >= 0; i--)
+    {
+        if (rank[i] != 1 && rank[i] != 2)
+            aux++;
+        if (aux == 8)
+            rank[0]++;
+    }
+
 
     for (int i = 9; i >=0; i--)
     {
@@ -203,18 +250,24 @@ HAND handIdentifier (HAND player, int hand_size) {
             {
             case 9:  // Royal Flush
 
-                for (int j = 0; j < hand_size; j++)
-                    if (i >= 2)
-                        result.best_combination[j-2] = j;  // Copia para result a posição das melhores cartas (no caso as últimas)
-                
+                for (int k = 4; k >= 0; k--)
+                    for (int j = 6; j >= 0; j--)
+                        if (mask[i] = 1)
+                        {        
+                            result.best_combination[k] = i;  // Copia para result a posição das melhores cartas (no caso as últimas)
+                            break;
+                        }
                 break;
 
             case 8:  // Straight Flush
 
-                for (int j = 0; j < hand_size; j++)
-                    if (i >= 2)
-                        result.best_combination[j-2] = j;  // Copia para result a posição das melhores cartas (no caso as últimas)
-
+                for (int k = 4; k >= 0; k--)
+                    for (int j = 6; j >= 0; j--)
+                        if (mask[i] = 1)
+                        {        
+                            result.best_combination[k] = i;  // Copia para result a posição das melhores cartas (no caso as últimas)
+                            break;
+                        }
                 break;
 
             case 7:  // 4 of a Kind
@@ -240,7 +293,7 @@ HAND handIdentifier (HAND player, int hand_size) {
 
                 aux = 4;
                 for (int j = hand_size-1; j >= 0; j--)
-                    if (mask[0][j] == 1)
+                    if (mask[j] == 1)
                     {
                         result.best_combination[aux] = j;
                         aux--;
@@ -249,39 +302,30 @@ HAND handIdentifier (HAND player, int hand_size) {
 
             case 4:  // Straight
 
-                aux = 4;
-                for (int j = hand_size-1; j >= 0; j--)
-                    if (mask[1][j] == 1)
-                    {
-                        if (result.card_values[j] == 14)
-                            result.best_combination[0] = j;
-                        else
-                        {
-                            result.best_combination[aux] = j;
-                            if (result.best_combination[0] != 14)
-                                aux--;
-                        }
-                    }
+
+                
                 break;
 
             case 3:  // 3 of a Kind
 
                 for (int j = 2; j >= 0; j--)
                     result.best_combination[j] = first_high - (2 - j);
-                if (first_high == hand_size-1){
+
+                if (first_high == hand_size-1)
+                {
                     result.best_combination[4] = 3;
                     result.best_combination[3] = 2;
+                }else if (first_high == hand_size - 2)
+                {
+                    result.best_combination[4] = hand_size - 1;
+                    result.best_combination[3] = first_high - 3;
+                } else if (first_high <= hand_size - 3)
+                {
+                    result.best_combination[4] = hand_size - 1;
+                    result.best_combination[3] = hand_size - 2;
                 }
-                if (first_high == hand_size-2){
-                    result.best_combination[4] = hand_size-1;
-                    result.best_combination[3] = hand_size-4;
-                }
-                if (first_high < 4){
-                    result.best_combination[4] = hand_size-1;
-                    result.best_combination[3] = hand_size-2;
-                }
-                break;
 
+                break;
 
             case 2:  // 2 Pairs
 
@@ -303,21 +347,37 @@ HAND handIdentifier (HAND player, int hand_size) {
 
                 for (int j = 1; j >= 0; j--)
                     result.best_combination[j] = last_high - (1 - j);
-                if (last_high ==hand_size-1)
+
+
+                if (last_high == hand_size-1)
                     for (int j = 4; j >= 2; j--)
                         result.best_combination[j] = (hand_size-3)-(4-j);
-                if (last_high == (hand_size-2))
-                    for (int j = 4; j >= 2; j--)
-                        result.best_combination[j] = (hand_size-2)-(4-j);
-                if (last_high <=(hand_size-3))
+                else if (last_high == (hand_size-2))
+                {
+                    result.best_combination[2] = last_high-3;
+                    result.best_combination[3] = last_high-2;
+                    result.best_combination[4] = hand_size-1;
+                }else if (last_high == (hand_size-3))
+                {
+                    for (int j = 4; j >= 3; j--)
+                        result.best_combination[j] = (hand_size-1)-(4-j);
+                    result.best_combination[2] = last_high - 2;
+                }else if (last_high <= hand_size-4)
                     for (int j = 4; j >= 2; j--)
                         result.best_combination[j] = (hand_size-1)-(4-j);
+
                 break;
 
             case 0:  // High Card
 
-                for (int j = hand_size-1; j >= 2; j--)
-                    result.best_combination[j-2] = j;
+                if (hand_size == 5)
+                    for (int j = hand_size-1; j >= 0; j--)
+                        result.best_combination[j] = j;
+                        
+                if (hand_size == 7)
+                    for (int j = hand_size-1; j >= 2; j--)
+                        result.best_combination[j-2] = j;
+
                 break;
             
             default:
@@ -332,47 +392,40 @@ HAND handIdentifier (HAND player, int hand_size) {
 
     /* Impressão dos dados na tela *//*
 
+    printf("\nMão:\n");
+    for (int i = 0; i < hand_size; i++)
+    {
+        printf("%d%c  ", player.card_values[i], player.card_naipes[i]);
+    }
+    printf("\n");
+    
     printf("\n\nFirst high: %d\nLast high: %d\n", first_high, last_high);
 
-    printf("\nBest combination array: "); 
+    printf("\nBest combination array: \n"); 
     for (int i = 0; i < 5; i++)
         printf("%d  ", result.best_combination[i]);
-    printf("\n");*/
-    
-    for (int i = 0; i < 3; i++)
-    {
-        printf("\nMask %d: ", i+1);
-        for (int j = 0; j < hand_size; j++)
-            printf("%d  ", mask[i][j]);
-        printf("\n");
-    }
-    /*
     printf("\n");
-    
-
-    for (int i = 0; i < 4; i++)
-    {
-        if (i==0)
-            printf("Copas: %d", naipes[i]);
-        if (i==1)
-            printf("Espadas: %d", naipes[i]);
-        if (i==2)
-            printf("Ouros: %d", naipes[i]);
-        if (i==3)
-            printf("Paus: %d", naipes[i]);
-
-        printf("\n");
-    }*/
+    for (int i = 0; i < 5; i++)
+        printf("%d%c  ", result.card_values[result.best_combination[i]], result.card_naipes[result.best_combination[i]]);
 
     printf("\n");
+    printf("\nMask: ");
+    for (int j = 0; j < hand_size; j++)
+        printf("%d  ", mask[j]);
+    printf("\n");
+
+    printf("\nHand Size: %d\n\n", hand_size);
+
+    printf("Copas: %d\n", naipes[0]);
+    printf("Espadas: %d\n", naipes[1]);
+    printf("Ouros: %d\n", naipes[2]);
+    printf("Paus: %d\n\n", naipes[3]);
+
     printf("Rank:\n");
-
     for (int i = 0; i < 10; i++)
         printf("(%d) %d  ",i, rank[i]);
-
-    printf("\n\n");
-
-    
+        
+    printf("\n\n");*/
 
     return result;
 
