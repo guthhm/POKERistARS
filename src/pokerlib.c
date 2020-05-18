@@ -95,7 +95,7 @@ HAND handIdentifier (HAND player, int hand_size) {
     HAND result;
 
     int naipes[4] = {0}, mask[7] = {0}, rank[10] = {0};
-    int last_high = 0, first_high, count = 0, streak = 0, aux = 0;
+    int last_high = 0, first_high = 0, streak = 0, aux = 0;
 
     for (int i = 0; i < hand_size; i++)  // Conta qual naipe tem maior ocorrência
     {
@@ -252,7 +252,7 @@ HAND handIdentifier (HAND player, int hand_size) {
 
                 for (int k = 4; k >= 0; k--)
                     for (int j = 6; j >= 0; j--)
-                        if (mask[i] = 1)
+                        if (mask[j] == 1)
                         {        
                             result.best_combination[k] = i;  // Copia para result a posição das melhores cartas (no caso as últimas)
                             break;
@@ -263,7 +263,7 @@ HAND handIdentifier (HAND player, int hand_size) {
 
                 for (int k = 4; k >= 0; k--)
                     for (int j = 6; j >= 0; j--)
-                        if (mask[i] = 1)
+                        if ((mask[j]) == 1)
                         {        
                             result.best_combination[k] = i;  // Copia para result a posição das melhores cartas (no caso as últimas)
                             break;
