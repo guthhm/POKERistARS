@@ -782,7 +782,8 @@ int main(int argc, char **argv) {
                     break;
 
                 case 5:
-                    printf("\n-dx\n");
+                    
+                    /*---------- -dx ----------*/
 
                     printf("-1");
                     printf("\n");
