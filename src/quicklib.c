@@ -4,6 +4,59 @@
 #include <stdbool.h>
 #include <string.h>
 
+int handSort (char array[7][3], int arr_size) {
+
+    char temp[3];
+    bool swapped; 
+
+    for (int i = 0; i < arr_size-1; i++) 
+    { 
+
+        swapped = false; 
+        for (int j = 0; j < arr_size-i-1; j++) 
+        { 
+            if (array[j][0] > array[j+1][0]) 
+            { 
+                strcpy(temp, array[j+1]);
+                strcpy(array[j+1], array[j]);
+                strcpy(array[j], temp);
+                swapped = YES; 
+            } 
+
+            if (((array[j][0] == 'J') && (array[j+1][0] == 'T')) || ((array[j][0] == 'Q') && (array[j+1][0] == 'T')))
+            {
+                strcpy(temp, array[j+1]);
+                strcpy(array[j+1], array[j]);
+                strcpy(array[j], temp);
+                swapped = YES;
+            }
+            
+            if (((array[j][0] == 'K') && (array[j+1][0] == 'Q')) || ((array[j][0] == 'K') && (array[j+1][0] == 'T')))
+            {
+                strcpy(temp, array[j+1]);
+                strcpy(array[j+1], array[j]);
+                strcpy(array[j], temp);
+                swapped = YES;
+            }
+
+            if (((array[j][0] == 'A') && (array[j+1][0] == 'T')) || ((array[j][0] == 'A') && (array[j+1][0] == 'J')) || ((array[j][0] == 'A') && (array[j+1][0] == 'Q')) || ((array[j][0] == 'A') && (array[j+1][0] == 'K')))
+            {
+                strcpy(temp, array[j+1]);
+                strcpy(array[j+1], array[j]);
+                strcpy(array[j], temp);
+                swapped = YES;
+            }
+            
+        }   
+
+        if (swapped == NO) 
+            break; 
+    } 
+
+    return 0;
+
+}
+
 int *castCtoI (char array[7][3]) {
 
     static int int_array[7];
