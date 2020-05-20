@@ -1,4 +1,5 @@
 #include "quicklib.h"
+#include "pokerlib.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
