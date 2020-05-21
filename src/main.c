@@ -11,22 +11,24 @@
 int main(int argc, char **argv)
 {
 
-    short loop = 0, count = 0, turn = 0, aux = 0, contestant_num = 0;
-    int *input_int;
-    long int cursor = 0;
+    short contestant_num = 0;
+    short *input_int;
     char *player_hands, *char_res, *deck_path;
     char input[10][3], splited_hands[1][7][3], temp_hand[7][3] = {0}, ch;
     char args[7][4] = {"-c", "-d1", "-d2", "-d3", "-d4", "-dx", "-s1"};
     FILE *deck_file;
+    FLAG flag = {};
     HAND hand_input[2] = {0}, hand_result[2], contestant_hand[8];
     PLAYER contestant[8] = {};
+    CARD_NODE *card_head, *half_deck, *tmp_deck;
+    SHUFFLE_NODE *shuffle_head, *tmp;
 
-    loop = YES;
-    for (int mode = 0; mode < 8; mode++) // for para deteção do modo de execução do programa
+    flag.loop = YES;
+    for (int mode = 0; mode < 7; mode++) // for para deteção do modo de execução do programa
     {
         if (strstr(args[mode], argv[1]) != NULL) // Compara a string recebida na linha de comando com as opções válidas
         {
-            loop = NO;
+            flag.loop = NO;
             switch (mode)
             {
             case 0: // Modo linha de comando
@@ -309,20 +311,20 @@ int main(int argc, char **argv)
 
                         if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
                         {
-                            input[count][0] = ch;
+                            input[flag.count][0] = ch;
                         }
                         else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
                         {
-                            input[count][1] = ch;
-                            input[count][2] = '\0';
-                            count++;
-                            aux++;
-                            //printf("%s ", input[count-1]);
+                            input[flag.count][1] = ch;
+                            input[flag.count][2] = '\0';
+                            flag.count++;
+                            flag.aux++;
+                            //printf("%s ", input[flag.count-1]);
                         }
 
-                        if ((count % 5 == 0) && (count != 0))
+                        if ((flag.count % 5 == 0) && (flag.count != 0))
                         {
-                            /*printf("\nCount: %d\n", count);
+                            /*printf("\nflag.count: %d\n", flag.count);
                                 for (int i = 0; i < 6; i++)
                                 {
                                     printf("%s ", input[i]);
@@ -343,14 +345,14 @@ int main(int argc, char **argv)
                             printf("%d", (hand_result[0].combination) + 1);
                             printf("\n");
 
-                            count = 0;
+                            flag.count = 0;
                         }
 
-                        if (aux == 52)
+                        if (flag.aux == 52)
                         {
-                            aux = 0;
-                            count = 0;
-                            turn++;
+                            flag.aux = 0;
+                            flag.count = 0;
+                            flag.turn++;
                             printf("\n");
                         }
                     }
@@ -390,20 +392,20 @@ int main(int argc, char **argv)
 
                         if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
                         {
-                            input[count][0] = ch;
+                            input[flag.count][0] = ch;
                         }
                         else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
                         {
-                            input[count][1] = ch;
-                            input[count][2] = '\0';
-                            count++;
-                            aux++;
-                            //printf("%s ", input[count-1]);
+                            input[flag.count][1] = ch;
+                            input[flag.count][2] = '\0';
+                            flag.count++;
+                            flag.aux++;
+                            //printf("%s ", input[flag.count-1]);
                         }
 
-                        if ((count % 7 == 0) && (count != 0))
+                        if ((flag.count % 7 == 0) && (flag.count != 0))
                         {
-                            /*printf("\nCount: %d\n", count);
+                            /*printf("\nflag.count: %d\n", flag.count);
                                 for (int i = 0; i < 6; i++)
                                 {
                                     printf("%s ", input[i]);
@@ -413,7 +415,7 @@ int main(int argc, char **argv)
                             handSort(input, 7);
 
                             input_int = castCtoI(input);
-                            for (int i = 0; i < 8; i++)
+                            for (int i = 0; i < 7; i++)
                             {
                                 hand_input[0].card_values[i] = *(input_int + i);
                                 hand_input[0].card_naipes[i] = input[i][1];
@@ -437,14 +439,14 @@ int main(int argc, char **argv)
                             printf("%d", (hand_result[0].combination) + 1);
                             printf("\n");
 
-                            count = 0;
+                            flag.count = 0;
                         }
 
-                        if (aux == 52)
+                        if (flag.aux == 52)
                         {
-                            aux = 0;
-                            count = 0;
-                            turn++;
+                            flag.aux = 0;
+                            flag.count = 0;
+                            flag.turn++;
                             printf("\n");
                         }
                     }
@@ -484,20 +486,20 @@ int main(int argc, char **argv)
 
                         if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
                         {
-                            input[count][0] = ch;
+                            input[flag.count][0] = ch;
                         }
                         else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
                         {
-                            input[count][1] = ch;
-                            input[count][2] = '\0';
-                            count++;
-                            aux++;
-                            //printf("%s ", input[count-1]);
+                            input[flag.count][1] = ch;
+                            input[flag.count][2] = '\0';
+                            flag.count++;
+                            flag.aux++;
+                            //printf("%s ", input[flag.count-1]);
                         }
 
-                        if ((count % 9 == 0) && (count != 0))
+                        if ((flag.count % 9 == 0) && (flag.count != 0))
                         {
-                            /*printf("\nCount: %d\n", count);
+                            /*printf("\nflag.count: %d\n", flag.count);
                                 for (int i = 0; i < 6; i++)
                                 {
                                     printf("%s ", input[i]);
@@ -570,14 +572,14 @@ int main(int argc, char **argv)
                             }
                             printf("\n");
 
-                            count = 0;
+                            flag.count = 0;
                         }
 
-                        if (aux == 52)
+                        if (flag.aux == 52)
                         {
-                            aux = 0;
-                            count = 0;
-                            turn++;
+                            flag.aux = 0;
+                            flag.count = 0;
+                            flag.turn++;
                             printf("\n");
                         }
                     }
@@ -617,20 +619,20 @@ int main(int argc, char **argv)
 
                         if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
                         {
-                            input[count][0] = ch;
+                            input[flag.count][0] = ch;
                         }
                         else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
                         {
-                            input[count][1] = ch;
-                            input[count][2] = '\0';
-                            count++;
-                            aux++;
-                            //printf("%s ", input[count-1]);
+                            input[flag.count][1] = ch;
+                            input[flag.count][2] = '\0';
+                            flag.count++;
+                            flag.aux++;
+                            //printf("%s ", input[flag.count-1]);
                         }
 
-                        if ((count % 10 == 0) && (count != 0))
+                        if ((flag.count % 10 == 0) && (flag.count != 0))
                         {
-                            /*printf("\nCount: %d\n", count);
+                            /*printf("\nflag.count: %d\n", flag.count);
                                 for (int i = 0; i < 6; i++)
                                 {
                                     printf("%s ", input[i]);
@@ -695,14 +697,14 @@ int main(int argc, char **argv)
 
                             printf("\n");
 
-                            count = 0;
+                            flag.count = 0;
                         }
 
-                        if (aux == 52)
+                        if (flag.aux == 52)
                         {
-                            aux = 0;
-                            count = 0;
-                            turn++;
+                            flag.aux = 0;
+                            flag.count = 0;
+                            flag.turn++;
                             printf("\n");
                         }
                     }
@@ -716,7 +718,7 @@ int main(int argc, char **argv)
             case 5:
 
                 /*---------- -dx ----------*/
-                aux = 0;
+                flag.aux = 0;
 
                 deck_path = (char *)malloc(strlen(argv[2] + 1));
 
@@ -750,19 +752,19 @@ int main(int argc, char **argv)
                         //printf("%c  ", ch);
 
                         if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
-                            input[count][0] = ch;
+                            input[flag.count][0] = ch;
                         else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
                         {
-                            input[count][1] = ch;
-                            input[count][2] = '\0';
-                            count++;
-                            aux++;
-                            //printf("%s ", input[count-1]);
+                            input[flag.count][1] = ch;
+                            input[flag.count][2] = '\0';
+                            flag.count++;
+                            flag.aux++;
+                            //printf("%s ", input[flag.count-1]);
                         }
 
                         if (contestant_num != 99)
                         {
-                            if ((count % 2 == 0) && (count != 0) && (contestant_num < 8))
+                            if ((flag.count % 2 == 0) && (flag.count != 0) && (contestant_num < 8))
                             {
 
                                 while (contestant[contestant_num].inactive == YES)
@@ -779,10 +781,10 @@ int main(int argc, char **argv)
                                     contestant_num++;
                                 }
 
-                                count = 0;
+                                flag.count = 0;
                             }
 
-                            if ((count % 5 == 0) && (count != 0) && (contestant_num == 8))
+                            if ((flag.count % 5 == 0) && (flag.count != 0) && (contestant_num == 8))
                             {
                                 /*printf("\nCartas mesa: ");
                                 for (int i = 0; i < 5; i++)
@@ -799,16 +801,16 @@ int main(int argc, char **argv)
                                             contestant_hand[i].card_naipes[j + 2] = input[j][1];
                                         }
 
-                                count = 0;
+                                flag.count = 0;
                                 contestant_num = 99;
                             }
                         }
 
-                        if (aux == 52)
+                        if (flag.aux == 52)
                         {
-                            aux = 0;
+                            flag.aux = 0;
                             contestant_num = 0;
-                            turn++;
+                            flag.turn++;
 
                             for (int i = 0; i < 8; i++)
                             {
@@ -843,7 +845,7 @@ int main(int argc, char **argv)
                                 {
                                     contestant[i].check++;
                                     contestant[i].fold = 0;
-                                } 
+                                }
                                 else
                                 {
                                     contestant[i].fold++;
@@ -872,11 +874,105 @@ int main(int argc, char **argv)
                 break;
 
             case 6:
-                printf("\n-s1\n");
+                /*---------- -s1 ----------*/
+                deck_path = (char *)malloc(strlen(argv[2] + 1));
 
-                printf("-1");
-                printf("\n");
-                exit(-1);
+                if (strcpy(deck_path, argv[2]) != NULL)
+                {
+                    if (strstr(deck_path, ".shuffle") != NULL)
+                        deck_file = fopen(deck_path, "r");
+                    else
+                    {
+                        printf("-1\n");
+                        exit(-1);
+                    }
+                }
+                else
+                {
+                    printf("-1\n");
+                    exit(-1);
+                }
+
+                if (deck_file == NULL)
+                {
+                    printf("-1\n");
+                    exit(-1);
+                }
+                else
+                {
+                    while ((ch = fgetc(deck_file)) != EOF)
+                    {
+
+                        if ((ch >= '1') && (ch <= '3'))
+                        {
+                            if (flag.aux == 0)
+                            {
+                                shuffle_head = createShuffleNode((ch - '0'));
+                                flag.aux++;
+                            }
+                            else
+                                insertAtTheEndOfShuffle(shuffle_head, createShuffleNode((ch - '0')));
+                        }
+
+                        if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
+                        {
+                            input[0][0] = ch;
+                        }
+                        else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
+                        {
+                            input[0][1] = ch;
+                            if (flag.count == 0)
+                                card_head = createCardNode(input[0][0], input[0][1]);
+                            else
+                                insertAtTheEndOfCard(card_head, createCardNode(input[0][0], input[0][1]));
+
+                            if ((input[0][0] >= '1') && (input[0][0] <= '3'))
+                                deleteLastNodeOfShuffle(shuffle_head);
+
+                            flag.count++;
+                        }
+
+                        if (flag.count == 27)
+                        {
+                            half_deck = card_head;
+                            while (half_deck->next_card != NULL)
+                                half_deck = half_deck->next_card;
+                        }
+
+                        if (flag.count == 52)
+                        {
+                            shakeIt(shuffle_head, card_head, half_deck, flag.print_to_file);
+
+                            flag.count = 0;
+                            flag.aux = 0;
+                        }
+                    }
+
+                    tmp = shuffle_head;
+                    tmp_deck = card_head;
+
+                    while (tmp != NULL)
+                    {
+                        printf("%d  ", tmp->type);
+                        tmp = tmp->next;
+                    }
+                    printf("\n");
+
+                    flag.count = 0;
+
+                    while (tmp_deck != NULL)
+                    {
+                        flag.count++;
+                        printf("%c%c  ", tmp_deck->card_value, tmp_deck->card_naipe);
+                        if (flag.count == 13)
+                        {
+                            printf("\n");
+                            flag.count = 0;
+                        }
+                        tmp_deck = tmp_deck->next_card;
+                    }
+                    printf("\n");
+                }
                 break;
 
             default:
@@ -886,7 +982,7 @@ int main(int argc, char **argv)
                 break;
             }
         }
-        else if ((loop != NO) && (mode == 8))
+        else if ((flag.loop != NO) && (mode == 8))
         {
             printf("-1");
             printf("\n");

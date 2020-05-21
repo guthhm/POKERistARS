@@ -1,11 +1,10 @@
 #include "quicklib.h"
-#include "pokerlib.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
-int handSort (char array[7][3], int arr_size) {
+short handSort (char array[7][3], short arr_size) {
 
     char temp[3];
     bool swapped; 
@@ -58,9 +57,9 @@ int handSort (char array[7][3], int arr_size) {
 
 }
 
-int *castCtoI (char array[7][3]) {
+short *castCtoI (char array[7][3]) {
 
-    static int int_array[7];
+    static short int_array[7];
     
     for (int i = 0; i < 7; i++)
     {
@@ -82,7 +81,7 @@ int *castCtoI (char array[7][3]) {
 
 }
 
-char *castItoC (int array[10]) {
+char *castItoC (short array[10]) {
 
     static char string_array[10];
     
@@ -104,4 +103,62 @@ char *castItoC (int array[10]) {
 
     return string_array;
 
+}
+
+SHUFFLE_NODE *createShuffleNode (short value) {
+
+    SHUFFLE_NODE *new_node = malloc(sizeof(SHUFFLE_NODE));
+    new_node->type = value;
+    new_node->next = NULL;
+
+    return new_node;
+}
+
+void insertAtTheEndOfShuffle (SHUFFLE_NODE *head, SHUFFLE_NODE *new_node) {
+
+    SHUFFLE_NODE *current_tail = head;
+
+    while (current_tail->next != NULL)
+        current_tail = current_tail->next;
+    
+    new_node->next = current_tail->next;
+    current_tail->next = new_node;
+}
+
+void deleteLastNodeOfShuffle (SHUFFLE_NODE *head) {
+
+    SHUFFLE_NODE *to_delete, *prev_node;
+
+    to_delete = head;
+
+    while (to_delete->next != NULL)
+    {
+        prev_node = to_delete;
+        to_delete = to_delete->next;
+    }
+
+    prev_node->next = NULL;
+
+    free(to_delete);
+}
+
+CARD_NODE *createCardNode (short value, char naipe) {
+
+    CARD_NODE *new_node = malloc(sizeof(CARD_NODE));
+    new_node->card_value = value;
+    new_node->card_naipe = naipe;
+    new_node->next_card = NULL;
+
+    return new_node;
+}
+
+void insertAtTheEndOfCard (CARD_NODE *head, CARD_NODE *new_node) {
+
+    CARD_NODE *current_tail = head;
+
+    while (current_tail->next_card != NULL)
+        current_tail = current_tail->next_card;
+
+    new_node->next_card = current_tail->next_card;
+    current_tail->next_card = new_node;
 }

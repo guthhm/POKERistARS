@@ -435,12 +435,12 @@ PLAYER doContest(HAND player_hand[8], PLAYER contestant[8])
 {
     char *stream;
     char temp_hand[5][3], winner[5][3];
-    short position = 0, max = 4, winner_num;
+    short position = 0, max = 4, winner_num = 0;
     int rank[8] = {0};
-    PLAYER res;
+    PLAYER res = {};
 
     for (int i = 0; i < 8; i++)
-        for (int j = i+1; j < 8; j++)
+        for (int j = i + 1; j < 8; j++)
             if ((contestant[i].inactive == NO) && (contestant[j].inactive == NO))
             {
                 if (player_hand[i].combination == player_hand[j].combination)
@@ -539,4 +539,258 @@ PLAYER doContest(HAND player_hand[8], PLAYER contestant[8])
     printf("\n");
 
     return res;
+}
+
+void shakeIt(SHUFFLE_NODE *shuffle_head, CARD_NODE *deck_head, CARD_NODE *half_deck, short print_to_file)
+{
+
+    SHUFFLE_NODE *tmp_shuffle = shuffle_head;
+    CARD_NODE *tmp_deck, *deck_tail, *half_tail, *aux_deck = half_deck, *tail_bkp, *half_tail_bkp;
+    FLAG flag = {};
+
+    while (tmp_shuffle != NULL)
+    {
+        switch (tmp_shuffle->type)
+        {
+        case 1:
+
+            /*printf("\nAntes das operacoes: ");
+            printf("\nDeck head: %c%c\nHalf deck: %c%c", deck_head->card_value, deck_head->card_naipe, half_deck->card_value, half_deck->card_naipe);
+            printf("\nHalf tail: %c%c\nDeck_tail: %c%c\n", half_tail->card_value, half_tail->card_naipe, deck_tail->card_value, deck_tail->card_naipe);*/
+
+            tmp_deck = deck_head;
+
+            while (half_deck != NULL)
+            {
+                half_tail = tmp_deck;
+
+                tmp_deck = tmp_deck->next_card;
+
+                half_tail->next_card = half_deck;
+
+                half_deck = half_deck->next_card;
+                half_tail = half_tail->next_card;
+                if (half_deck != NULL)
+                    half_tail->next_card = tmp_deck;
+                else
+                    half_tail->next_card = NULL;
+            }
+
+            flag.count = 0;
+            half_deck = deck_head;
+
+            while (flag.count < 26)
+            {
+                half_deck = half_deck->next_card;
+                flag.count++;
+            }
+
+            deck_tail = half_deck;
+            half_tail = deck_head;
+
+            while (deck_tail->next_card != NULL)
+                deck_tail = deck_tail->next_card;
+
+            while (half_tail->next_card != half_deck)
+                half_tail = half_tail->next_card;
+
+            /*printf("\nDepois das operacoes: ");
+            printf("\nDeck head: %c%c\nHalf deck: %c%c", deck_head->card_value, deck_head->card_naipe, half_deck->card_value, half_deck->card_naipe);
+            printf("\nHalf tail: %c%c\nDeck_tail: %c%c\n", half_tail->card_value, half_tail->card_naipe, deck_tail->card_value, deck_tail->card_naipe);*/
+
+            tmp_deck = deck_head;
+
+            /*while (tmp_deck != NULL)
+            {
+                flag.aux++;
+                printf("%c%c  ", tmp_deck->card_value, tmp_deck->card_naipe);
+                if (flag.aux == 13)
+                {
+                    printf("\n");
+                    flag.aux = 0;
+                }
+                    
+                tmp_deck = tmp_deck->next_card;
+            }
+
+            printf("\n\n");    */
+
+            break;
+
+        case 2:
+
+            deck_tail = half_deck;
+            half_tail = deck_head;
+
+            while (deck_tail->next_card != NULL)
+                deck_tail = deck_tail->next_card;
+
+            while (half_tail->next_card != half_deck)
+                half_tail = half_tail->next_card;
+
+            /*printf("\nAntes das operacoes: ");
+            printf("\nDeck head: %c%c\nHalf deck: %c%c", deck_head->card_value, deck_head->card_naipe, half_deck->card_value, half_deck->card_naipe);
+            printf("\nHalf tail: %c%c\nDeck_tail: %c%c\n", half_tail->card_value, half_tail->card_naipe, deck_tail->card_value, deck_tail->card_naipe);*/
+
+            half_tail->next_card = deck_tail;
+
+            while (deck_tail->next_card != half_deck)
+            {
+                tmp_deck = half_deck;
+
+                while (tmp_deck->next_card != deck_tail)
+                    tmp_deck = tmp_deck->next_card;
+
+                deck_tail->next_card = tmp_deck;
+                deck_tail = deck_tail->next_card;
+            }
+
+            half_deck->next_card = NULL;
+
+            flag.count = 0;
+            half_deck = deck_head;
+
+            while (flag.count < 26)
+            {
+                half_deck = half_deck->next_card;
+                flag.count++;
+            }
+
+            deck_tail = half_deck;
+
+            tmp_deck = deck_head;
+            while (deck_tail->next_card != NULL)
+                deck_tail = deck_tail->next_card;
+
+            /*------------------------------------------- 1 -------------------------------------------*/
+
+            tmp_deck = deck_head;
+
+            while (half_deck != NULL)
+            {
+                half_tail = tmp_deck;
+
+                tmp_deck = tmp_deck->next_card;
+
+                half_tail->next_card = half_deck;
+
+                half_deck = half_deck->next_card;
+                half_tail = half_tail->next_card;
+                if (half_deck != NULL)
+                    half_tail->next_card = tmp_deck;
+                else
+                    half_tail->next_card = NULL;
+            }
+
+            flag.count = 0;
+            half_deck = deck_head;
+
+            while (flag.count < 26)
+            {
+                half_deck = half_deck->next_card;
+                flag.count++;
+            }
+
+            deck_tail = half_deck;
+            half_tail = deck_head;
+
+            while (deck_tail->next_card != NULL)
+                deck_tail = deck_tail->next_card;
+
+            while (half_tail->next_card != half_deck)
+                half_tail = half_tail->next_card;
+
+            /*printf("\nDepois das operacoes: ");
+            printf("\nDeck head: %c%c\nHalf deck: %c%c", deck_head->card_value, deck_head->card_naipe, half_deck->card_value, half_deck->card_naipe);
+            printf("\nHalf tail: %c%c\nDeck_tail: %c%c\n", half_tail->card_value, half_tail->card_naipe, deck_tail->card_value, deck_tail->card_naipe);*/
+
+            tmp_deck = deck_head;
+
+            /*while (tmp_deck != NULL)
+            {
+                flag.aux++;
+                printf("%c%c  ", tmp_deck->card_value, tmp_deck->card_naipe);
+                if (flag.aux == 13)
+                {
+                    printf("\n");
+                    flag.aux = 0;
+                }
+                    
+                tmp_deck = tmp_deck->next_card;
+            }
+
+            printf("\n\n");   */
+
+            break;
+
+        case 3:
+
+            deck_tail = half_deck;
+            half_tail = deck_head;
+
+            while (deck_tail->next_card != NULL)
+                deck_tail = deck_tail->next_card;
+
+            while (half_tail->next_card != half_deck)
+                half_tail = half_tail->next_card;
+
+            /*printf("\nAntes das operacoes: ");
+            printf("\nDeck head: %c%c\nHalf deck: %c%c", deck_head->card_value, deck_head->card_naipe, half_deck->card_value, half_deck->card_naipe);
+            printf("\nHalf tail: %c%c\nDeck_tail: %c%c\n", half_tail->card_value, half_tail->card_naipe, deck_tail->card_value, deck_tail->card_naipe);*/
+
+            deck_tail->next_card = deck_head;
+            half_tail->next_card = NULL;
+            tmp_deck = deck_head;
+            deck_head = half_deck;
+            half_deck = tmp_deck;
+            tmp_deck = half_tail;
+            half_tail = deck_tail;
+            deck_tail = tmp_deck;
+
+            tmp_deck = deck_head;
+
+            /*printf("\nDepois das operacoes: ");
+            printf("\nDeck head: %c%c\nHalf deck: %c%c", deck_head->card_value, deck_head->card_naipe, half_deck->card_value, half_deck->card_naipe);
+            printf("\nHalf tail: %c%c\nDeck_tail: %c%c\n", half_tail->card_value, half_tail->card_naipe, deck_tail->card_value, deck_tail->card_naipe);
+
+            while (tmp_deck != NULL)
+            {
+                flag.aux++;
+                printf("%c%c  ", tmp_deck->card_value, tmp_deck->card_naipe);
+                if (flag.aux == 13)
+                {
+                    printf("\n");
+                    flag.aux = 0;
+                }
+                    
+                tmp_deck = tmp_deck->next_card;
+            }
+
+            printf("\n\n");*/
+
+            break;
+
+        default:
+            break;
+        }
+
+        tmp_shuffle = tmp_shuffle->next;
+    }
+
+    tmp_deck = deck_head;
+
+    while (tmp_deck != NULL)
+    {
+        flag.aux++;
+        printf("%c%c ", tmp_deck->card_value, tmp_deck->card_naipe);
+        if (flag.aux == 13)
+        {
+            printf("\n");
+            flag.aux = 0;
+        }
+
+        tmp_deck = tmp_deck->next_card;
+    }
+
+    printf("\n\n");
 }
