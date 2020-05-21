@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     char args[7][4] = {"-c", "-d1", "-d2", "-d3", "-d4", "-dx", "-s1"};
     FILE *deck_file;
     FLAG flag = {};
-    HAND hand_input[2] = {0}, hand_result[2], contestant_hand[8];
+    HAND hand_input[2] = {}, hand_result[2], contestant_hand[8];
     PLAYER contestant[8] = {};
     CARD_NODE *card_head, *half_deck, *tmp_deck;
     SHUFFLE_NODE *shuffle_head, *tmp;
@@ -31,7 +31,9 @@ int main(int argc, char **argv)
             flag.loop = NO;
             switch (mode)
             {
-            case 0: // Modo linha de comando
+            case 0:
+
+                /*------------------------- -c -------------------------*/
 
                 if (argc != 7 && argc != 9 && argc != 11 && argc != 12) // Confere a quantidade de cartas
                 {
@@ -41,26 +43,24 @@ int main(int argc, char **argv)
                 }
 
                 for (int i = 0; i < argc - 2; i++)
-                { // Copia cartas recebidas na linha de comando para input
                     strcpy(input[i], argv[i + 2]);
-                }
 
                 errorCheck(input, argc - 2);
 
-                switch (argc)
+                switch (argc) // Executa o modo de linha de comando de acordo com o número de cartas
                 {
                 case 7:
 
-                    handSort(input, 5);
+                    handSort(input, 5); // Ordena as cartas de forma crescente
 
-                    input_int = castCtoI(input);
+                    input_int = castCtoI(input); // Separa a parte intera dascartas do naipe, designando o valor de 2 a 14 para 2 e Ás, respectivamente
                     for (int i = 0; i < 5; i++)
                     {
                         hand_input[0].card_values[i] = *(input_int + i);
                         hand_input[0].card_naipes[i] = input[i][1];
                     }
 
-                    hand_result[0] = handIdentifier(hand_input[0], 5);
+                    hand_result[0] = handIdentifier(hand_input[0], 5); // Avalia a mão e retorna a melhor mão e a combinação correspondente
 
                     printf("%d", (hand_result[0].combination) + 1);
                     printf("\n");
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
                     handSort(splited_hands[0], 7); // Ordena ambas as mãos
                     handSort(splited_hands[1], 7);
 
-                    for (int i = 0; i < 2; i++) // Separa a parte intera dascartas do naipe, designando o valor de 2 a 14 para 2 e Ás, respectivamente
+                    for (int i = 0; i < 2; i++)
                     {
                         input_int = castCtoI(splited_hands[i]);
                         for (int j = 0; j < 7; j++)
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
                     for (int i = 0; i < 2; i++) // Classifica ambas as mãos e retorna a melhor combinação
                         hand_result[i] = handIdentifier(hand_input[i], 7);
 
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 2; i++) // Altera o formato dos dados para que possam ser impressos de acordo com as normas
                     {
 
                         char_res = castItoC(hand_result[i].card_values);
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
                         char_res = NULL;
                     }
 
-                    if (hand_result[0].combination > hand_result[1].combination)
+                    if (hand_result[0].combination > hand_result[1].combination) // Regras que determinam os vendedores
                         printf("1");
                     else if (hand_result[0].combination < hand_result[1].combination)
                         printf("2");
@@ -284,13 +284,13 @@ int main(int argc, char **argv)
 
             case 1:
 
-                /*---------- -d1 ----------*/
+                /*------------------------- -d1 -------------------------*/
 
-                deck_path = (char *)malloc(strlen(argv[2] + 1));
+                deck_path = (char *)malloc(strlen(argv[2] + 1)); // Cria array dinamicamente alocado para receber o nome do ficehiro a ser aberto
 
                 strcpy(deck_path, argv[2]);
 
-                if (strstr(deck_path, ".deck") != NULL)
+                if (strstr(deck_path, ".deck") != NULL) // Salvaguarda de erros na invocação do programa
                     deck_file = fopen(deck_path, "r");
                 else
                 {
@@ -305,15 +305,13 @@ int main(int argc, char **argv)
                 }
                 else
                 {
-                    while ((ch = fgetc(deck_file)) != EOF)
+                    while ((ch = fgetc(deck_file)) != EOF) // Obtenção de caractere em caractere do conteúdo do ficheiro
                     {
                         //printf("%c    ", ch);
 
-                        if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
-                        {
+                        if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A')) // Obtem valores das cartas
                             input[flag.count][0] = ch;
-                        }
-                        else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
+                        else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P')) // Obtem naipes das cartas
                         {
                             input[flag.count][1] = ch;
                             input[flag.count][2] = '\0';
@@ -365,7 +363,7 @@ int main(int argc, char **argv)
 
             case 2:
 
-                /*---------- -d2 ----------*/
+                /*------------------------- -d2 -------------------------*/
 
                 deck_path = (char *)malloc(strlen(argv[2] + 1));
 
@@ -459,7 +457,7 @@ int main(int argc, char **argv)
 
             case 3:
 
-                /*---------- -d3 ----------*/
+                /*------------------------- -d3 -------------------------*/
 
                 deck_path = (char *)malloc(strlen(argv[2] + 1));
 
@@ -591,9 +589,7 @@ int main(int argc, char **argv)
                 break;
 
             case 4:
-
-                /*---------- -d4 ----------*/
-
+                /*------------------------- -d4 -------------------------*/
                 deck_path = (char *)malloc(strlen(argv[2] + 1));
 
                 strcpy(deck_path, argv[2]);
@@ -716,8 +712,7 @@ int main(int argc, char **argv)
                 break;
 
             case 5:
-
-                /*---------- -dx ----------*/
+                /*------------------------- -dx -------------------------*/
                 flag.aux = 0;
 
                 deck_path = (char *)malloc(strlen(argv[2] + 1));
@@ -874,7 +869,7 @@ int main(int argc, char **argv)
                 break;
 
             case 6:
-                /*---------- -s1 ----------*/
+                /*------------------------- -s1 -------------------------*/
                 deck_path = (char *)malloc(strlen(argv[2] + 1));
 
                 if (strcpy(deck_path, argv[2]) != NULL)
@@ -903,43 +898,42 @@ int main(int argc, char **argv)
                     while ((ch = fgetc(deck_file)) != EOF)
                     {
 
-                        if ((ch >= '1') && (ch <= '3'))
+                        if ((ch >= '1') && (ch <= '3')) // Se o caractere lido for entre 1 e 3 existe a possibilidade de ser um instrução de shuffling
                         {
                             if (flag.aux == 0)
                             {
-                                shuffle_head = createShuffleNode((ch - '0'));
+                                shuffle_head = createShuffleNode((ch - '0')); // Se for a primeira instrução, cria o head da lista
                                 flag.aux++;
                             }
                             else
-                                insertAtTheEndOfShuffle(shuffle_head, createShuffleNode((ch - '0')));
+                                insertAtTheEndOfShuffle(shuffle_head, createShuffleNode((ch - '0'))); // Se não, adiciona ao fim
                         }
 
                         if (((ch > '1') && (ch <= '9')) || (ch == 'T') || (ch == 'J') || (ch == 'Q') || (ch == 'K') || (ch == 'A'))
-                        {
                             input[0][0] = ch;
-                        }
                         else if ((ch == 'C') || (ch == 'E') || (ch == 'O') || (ch == 'P'))
                         {
                             input[0][1] = ch;
-                            if (flag.count == 0)
+                            if (flag.count == 0) // Se for a primeira carta, cria o head da lista
                                 card_head = createCardNode(input[0][0], input[0][1]);
-                            else
+                            else // Se não, insere ao fim
                                 insertAtTheEndOfCard(card_head, createCardNode(input[0][0], input[0][1]));
 
+                            /* Caso o programa tenha criado uma instruçãode shuffle que em realidade é uma carta, apaga-se este nó*/
                             if ((input[0][0] >= '1') && (input[0][0] <= '3'))
                                 deleteLastNodeOfShuffle(shuffle_head);
 
-                            flag.count++;
+                            flag.count++; // Conta as cartas para estabelecer quando termina o baralho
                         }
 
-                        if (flag.count == 27)
+                        if (flag.count == 27) // Estabelece um apontador para o meio da lista, de modo a facilitar o shuffling
                         {
                             half_deck = card_head;
                             while (half_deck->next_card != NULL)
                                 half_deck = half_deck->next_card;
                         }
 
-                        if (flag.count == 52)
+                        if (flag.count == 52) // Após obter um baralho, faz o shuffle
                         {
                             shakeIt(shuffle_head, card_head, half_deck, flag.print_to_file);
 
@@ -947,31 +941,6 @@ int main(int argc, char **argv)
                             flag.aux = 0;
                         }
                     }
-
-                    tmp = shuffle_head;
-                    tmp_deck = card_head;
-
-                    while (tmp != NULL)
-                    {
-                        printf("%d  ", tmp->type);
-                        tmp = tmp->next;
-                    }
-                    printf("\n");
-
-                    flag.count = 0;
-
-                    while (tmp_deck != NULL)
-                    {
-                        flag.count++;
-                        printf("%c%c  ", tmp_deck->card_value, tmp_deck->card_naipe);
-                        if (flag.count == 13)
-                        {
-                            printf("\n");
-                            flag.count = 0;
-                        }
-                        tmp_deck = tmp_deck->next_card;
-                    }
-                    printf("\n");
                 }
                 break;
 
